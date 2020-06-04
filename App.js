@@ -6,7 +6,7 @@ const App = () => {
     <SafeAreaView>
       <View styles={styles.container}>
         <Text>Hello, World. 123</Text>
-        <Text>Hiya</Text>
+        <Text>Hiya!</Text>
       </View>
     </SafeAreaView>
   );
