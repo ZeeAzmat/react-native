@@ -1,6 +1,7 @@
 import React from 'react';
+import { COLORS } from './data/colors.json';
 import ColorBox from './components/ColorBox';
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, FlatList } from 'react-native';
 
 const App = () => {
   return (
@@ -11,12 +12,12 @@ const App = () => {
         </Text>
       </View>
 
-      <ColorBox colorName="Cyan" hexCode="#2aa198" />
-      <ColorBox colorName="Blue" hexCode="#268bd2" />
-      <ColorBox colorName="Magenta" hexCode="#d33682" />
-      <ColorBox colorName="Orange" hexCode="#cb4b16" />
-      <ColorBox colorName="Grey" hexCode="#555555" />
-      <ColorBox colorName="Black" hexCode="#000000" />
+      <FlatList
+        data={COLORS}
+        renderItem={({ item }) => (
+          <ColorBox colorName={item.colorName} hexCode={item.hexCode} />
+        )}
+      />
     </SafeAreaView>
   );
 };
