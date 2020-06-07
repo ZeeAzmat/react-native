@@ -1,5 +1,5 @@
-import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import React, { useState, useCallback, useEffect } from 'react';
+import { FlatList, StyleSheet, SafeAreaView, Text } from 'react-native';
 import PalettePreview from '../components/PalettePreview';
 import { SOLARIZED, RAINBOW, FRONTEND_MASTERS } from '../data/colors.json';
 
@@ -10,18 +10,24 @@ const COLOR_PALETTES = [
 ];
 
 const Home = ({ navigation }) => {
+  const [colorPalette, setColorPalette] = useState([]);
+
   return (
-    <FlatList
-      style={styles.section}
-      data={COLOR_PALETTES}
-      keyExtractor={(item) => item.paletteName}
-      renderItem={({ item }) => (
-        <PalettePreview
-          handlePress={() => navigation.navigate('ColorPalette', item)}
-          colorPalette={item}
-        />
-      )}
-    />
+    <SafeAreaView>
+      <FlatList
+        style={styles.section}
+        data={COLOR_PALETTES}
+        keyExtractor={(item) => item.paletteName}
+        renderItem={({ item }) => (
+          <PalettePreview
+            handlePress={() => navigation.navigate('ColorPalette', item)}
+            colorPalette={item}
+          />
+        )}
+      />
+
+      <Text onPress={() => navigation.navigate('Calculator')}>Calculator</Text>
+    </SafeAreaView>
   );
 };
 
