@@ -9,14 +9,30 @@ const COLOR_PALETTES = [
   { paletteName: 'Frontend Masters', colors: FRONTEND_MASTERS },
 ];
 
+const colorPalettesUrl = 'https://color-palette-api.kadikraman.now.sh/palettes';
+
 const Home = ({ navigation }) => {
   const [colorPalette, setColorPalette] = useState([]);
+
+  const handleFetchColorPalettes = useCallback(async () => {
+    const result = await fetch(colorPalettesUrl);
+    const colorPaletteList = await result.json();
+
+    if (result.ok) {
+      setColorPalette(colorPaletteList);
+    }
+  }, []);
+
+  useEffect(() => {
+    handleFetchColorPalettes();
+  }, [handleFetchColorPalettes]);
 
   return (
     <SafeAreaView>
       <FlatList
         style={styles.section}
-        data={COLOR_PALETTES}
+        data={colorPalette}
+        // data={COLOR_PALETTES}
         keyExtractor={(item) => item.paletteName}
         renderItem={({ item }) => (
           <PalettePreview
