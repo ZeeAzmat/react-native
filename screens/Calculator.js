@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Text,
   View,
@@ -8,22 +8,28 @@ import {
 } from 'react-native';
 
 const Calculator = () => {
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(0);
+
+  const handleIncrement = useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  const handleDecrement = useCallback(() => {
+    setCount((currentValue) => currentValue - 1);
+  }, []);
 
   return (
     <SafeAreaView>
       <Text>Calculator: {count}</Text>
 
       <View style={styles.buttons}>
-        <TouchableOpacity
-          onPress={() => setCount((currentValue) => currentValue + 1)}>
+        <TouchableOpacity onPress={handleIncrement}>
           <Text>Increment</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.buttons}>
-        <TouchableOpacity
-          onPress={() => setCount((currentValue) => currentValue - 1)}>
+        <TouchableOpacity onPress={handleDecrement}>
           <Text>Decrement</Text>
         </TouchableOpacity>
       </View>
@@ -33,9 +39,9 @@ const Calculator = () => {
 
 const styles = StyleSheet.create({
   buttons: {
+    padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 10,
   },
 });
 
