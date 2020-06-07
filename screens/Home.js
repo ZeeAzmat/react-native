@@ -1,6 +1,6 @@
+import PalettePreview from '../components/PalettePreview';
 import React, { useState, useCallback, useEffect } from 'react';
 import { FlatList, StyleSheet, SafeAreaView, Text } from 'react-native';
-import PalettePreview from '../components/PalettePreview';
 import { SOLARIZED, RAINBOW, FRONTEND_MASTERS } from '../data/colors.json';
 
 const COLOR_PALETTES = [
@@ -13,13 +13,18 @@ const colorPalettesUrl = 'https://color-palette-api.kadikraman.now.sh/palettes';
 
 const Home = ({ navigation }) => {
   const [colorPalette, setColorPalette] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleFetchColorPalettes = useCallback(async () => {
+    setIsRefreshing(true);
     const result = await fetch(colorPalettesUrl);
     const colorPaletteList = await result.json();
 
     if (result.ok) {
-      setColorPalette(colorPaletteList);
+      setTimeout(() => {
+        setColorPalette(colorPaletteList);
+        setIsRefreshing(false);
+      }, 1000);
     }
   }, []);
 
@@ -40,6 +45,8 @@ const Home = ({ navigation }) => {
             colorPalette={item}
           />
         )}
+        refreshing={isRefreshing}
+        onRefresh={handleFetchColorPalettes}
       />
 
       <Text onPress={() => navigation.navigate('Calculator')}>Calculator</Text>
