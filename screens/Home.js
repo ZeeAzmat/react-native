@@ -17,7 +17,9 @@ const COLOR_PALETTES = [
 
 const colorPalettesUrl = 'https://color-palette-api.kadikraman.now.sh/palettes';
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
+  const newColorPalette = route.params ? route.params : undefined;
+
   const [colorPalette, setColorPalette] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -38,6 +40,12 @@ const Home = ({ navigation }) => {
     handleFetchColorPalettes();
   }, [handleFetchColorPalettes]);
 
+  useEffect(() => {
+    if (newColorPalette) {
+      setColorPalette((palettes) => [newColorPalette, ...palettes]);
+    }
+  }, [newColorPalette]);
+
   return (
     <SafeAreaView>
       <FlatList
@@ -56,7 +64,7 @@ const Home = ({ navigation }) => {
         ListHeaderComponent={
           <TouchableOpacity
             onPress={() => navigation.navigate('ColorPaletteModal')}>
-            <Text> Open Modal!</Text>
+            <Text style={styles.launchModal}>Add a color scheme!</Text>
           </TouchableOpacity>
         }
       />
@@ -70,6 +78,12 @@ const styles = StyleSheet.create({
   section: {
     paddingVertical: 10,
     paddingHorizontal: 20,
+  },
+  launchModal: {
+    fontSize: 20,
+    color: 'teal',
+    marginBottom: 10,
+    fontWeight: 'bold',
   },
 });
 
