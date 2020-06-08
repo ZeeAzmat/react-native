@@ -1,7 +1,13 @@
 import PalettePreview from '../components/PalettePreview';
 import React, { useState, useCallback, useEffect } from 'react';
-import { FlatList, StyleSheet, SafeAreaView, Text } from 'react-native';
 import { SOLARIZED, RAINBOW, FRONTEND_MASTERS } from '../data/colors.json';
+import {
+  Text,
+  FlatList,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 
 const COLOR_PALETTES = [
   { paletteName: 'Solarized', colors: SOLARIZED },
@@ -47,6 +53,12 @@ const Home = ({ navigation }) => {
         )}
         refreshing={isRefreshing}
         onRefresh={handleFetchColorPalettes}
+        ListHeaderComponent={
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ColorPaletteModal')}>
+            <Text> Open Modal!</Text>
+          </TouchableOpacity>
+        }
       />
 
       <Text onPress={() => navigation.navigate('Calculator')}>Calculator</Text>
